@@ -1,4 +1,5 @@
 # Written for Python2
+from struct import Struct
 
 # Performs XOR over two byte strings
 # a and b do not have to be the same length
@@ -11,18 +12,20 @@ def xor(a,b):
 # constructs a byte string consisting of the least significant bit
 # of the argument byte string
 # resulting string length is ceil(len(data)/8.0)
-def lsb(data):
+# takes a Struct object to unpack the data
+def lsb(data,struct=Struct('c'),msb=True):
     binary = ''
-    bite = 0
-    pos = 0
-    for index in range(len(data)):
-        pos = index % 8
-        bite += ((ord(data[index]) & 1) << pos)
-        if pos == 7:
-            binary += chr(bite)
-            bite = 0
-    if len(data) % 8 != 0:
-        binary += chr(bite)
+    bite = ''
+    offset = 0
+    while offset+struct.size<len(data):
+        bite += str(struct.unpack_from(data,offset)[0] & 1)
+        offset += struct.size
+        if len(bite)==8:
+            #print(bite)
+            binary += chr(int(bite,2)) if msb else chr(int(bite[::-1],2))
+            bite = ''
+    if len(bite)>0:
+        binary += chr(int(bite,2)) if msb else chr(int(bite[::-1],2))
     return binary
 
 # returns the parity bit for a byte string
