@@ -40,3 +40,13 @@ def parity(data):
     for x in data:
         p ^= lookup[x]
     return p
+
+def brot(data,n):
+    shiftarr = [128,192,224,240,248,252,254]
+    result = ''
+    n = n % 8
+    if n==0:
+        return data
+    for x in data:
+        result += chr((ord(x) >> n) | ((ord(x) << (8-n)) & shiftarr[n-1]))
+    return result
