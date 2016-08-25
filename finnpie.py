@@ -50,3 +50,16 @@ def brot(data,n):
     for x in data:
         result += chr((ord(x) >> n) | ((ord(x) << (8-n)) & shiftarr[n-1]))
     return result
+
+def xshift(data, key, reverse=False):
+    p = ''
+    if reverse:
+        data = data[::-1] + key
+        for i in range(len(data)-1):
+            p += xor(data[i],data[i+1])
+        p = p[::-1]
+    else:
+        for i in range(len(data)):
+            key = xor(data[i],key)
+            p += key
+    return p
