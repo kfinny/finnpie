@@ -63,3 +63,10 @@ def xshift(data, key, reverse=False):
             key = xor(data[i],key)
             p += key
     return p
+
+def rot13(data):
+    def rotate(c):
+        c = c.group(0)
+        return chr(ord(c)+13 if (90 if c <= 'Z' else 122) >= (ord(c)+13) else (ord(c)-13))
+    import re
+    return re.sub("[a-zA-Z]",rotate,data)
