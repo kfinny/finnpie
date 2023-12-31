@@ -4,4 +4,4 @@ A collection of python functions that I've rewritten enough times to finally cre
 ## Usage
 Check the docstrings
 
-Needs updating
+Needs updating from kevin
